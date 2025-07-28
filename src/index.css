@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.weather-popup {
+  min-width: 200px;
+}
+
+.route-marker {
+  background: #3b82f6;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.weather-card {
+  @apply bg-white rounded-lg shadow-md p-4 m-2 border;
+}
+
+.loading-spinner {
+  @apply inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600;
+}
+
+.custom-weather-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.weather-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #3b82f6;
+}
+
+.weather-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-temp {
+  font-size: 12px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-top: 2px;
+}
