@@ -1,8 +1,8 @@
-# Weather Map Travel 🗺️🌤️
+# Weather Your Route 🗺️🌤️
 
 A React application that provides weather forecasts along your travel route. Plan your journey with real-time weather updates at regular intervals along your path from origin to destination.
 
-![Weather Map Travel](https://img.shields.io/badge/React-18.2.0-blue) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.2-blue) ![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-green)
+![Weather Your Route](https://img.shields.io/badge/React-18.2.0-blue) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.2-blue) ![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-green)
 
 ## Features
 

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { db } from "../config/firebase";
+import { collection, addDoc, query, where, getDocs, orderBy } from "firebase/firestore";
 
 // Using OpenRouteService - you'll need to get a free API key
 const ORS_API_KEY = process.env.REACT_APP_ORS_API_KEY || "YOUR_ORS_API_KEY";
@@ -91,6 +93,84 @@ export const routingService = {
       ]), // [lat, lng]
     };
   },
+
+  async saveRouteHistory(userId, routeData) {
+    try {
+      const routeHistory = {
+        userId,
+        origin: routeData.origin,
+        destination: routeData.destination,
+        distance: routeData.distance,
+        duration: routeData.duration,
+        travelMode: routeData.travelMode,
+        coordinates: routeData.coordinates,
+        weatherPoints: routeData.weatherPoints,
+        timestamp: new Date().toISOString(),
+      };
+
+      const docRef = await addDoc(collection(db, 'routeHistory'), routeHistory);
+      return docRef.id;
+    } catch (error) {
+      console.error('Error saving route history:', error);
+      throw error;
+    }
+  },
+
+  async getUserRouteHistory(userId) {
+    try {
+      const q = query(
+        collection(db, 'routeHistory'),
+        where('userId', '==', userId),
+        orderBy('timestamp', 'desc')
+      );
+
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error fetching route history:', error);
+      throw error;
+    }
+  },
+
+  async getFavoriteRoutes(userId) {
+    try {
+      const q = query(
+        collection(db, 'favoriteRoutes'),
+        where('userId', '==', userId)
+      );
+
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error fetching favorite routes:', error);
+      throw error;
+    }
+  },
+
+  async saveAsFavorite(userId, routeData) {
+    try {
+      const favoriteRoute = {
+        userId,
+        origin: routeData.origin,
+        destination: routeData.destination,
+        travelMode: routeData.travelMode,
+        name: routeData.name || `${routeData.origin} to ${routeData.destination}`,
+        createdAt: new Date().toISOString()
+      };
+
+      const docRef = await addDoc(collection(db, 'favoriteRoutes'), favoriteRoute);
+      return docRef.id;
+    } catch (error) {
+      console.error('Error saving favorite route:', error);
+      throw error;
+    }
+  }
 };
 
 // Geocoding service for converting addresses to coordinates

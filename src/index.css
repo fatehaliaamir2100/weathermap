@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-image: url('../public/cloudy-background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .leaflet-container {
   height: 100%;
   width: 100%;
