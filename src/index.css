@@ -7,11 +7,29 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 .leaflet-container {
   height: 100%;
   width: 100%;
+  background: #ffffff !important;
+}
+
+/* Custom weather marker styles */
+.custom-weather-marker {
+  background: transparent !important;
+  border: none !important;
 }
 
 .weather-popup {
@@ -22,20 +40,16 @@ body {
   background: #3b82f6;
   border: 2px solid white;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 16px;
+  height: 16px;
 }
 
-.weather-card {
-  @apply bg-white rounded-lg shadow-md p-4 m-2 border;
+.route-marker.origin {
+  background: #10b981;
 }
 
-.loading-spinner {
-  @apply inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600;
-}
-
-.custom-weather-marker {
-  background: transparent !important;
-  border: none !important;
+.route-marker.destination {
+  background: #ef4444;
 }
 
 .weather-marker {
@@ -43,21 +57,26 @@ body {
   flex-direction: column;
   align-items: center;
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 2px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border: 2px solid #e5e7eb;
+  min-width: 60px;
 }
 
 .weather-icon {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
 }
 
 .weather-temp {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
-  color: #1f2937;
-  margin-top: 2px;
+  color: #1F2937;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
 }

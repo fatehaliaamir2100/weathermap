@@ -5,13 +5,14 @@ import { useTravel } from '../context/TravelContext';
 import { calculateRouteSegments, getAverageSpeed, formatDistance, formatTime } from '../utils/routeUtils';
 
 function FavoriteRoutes() {
+  const [error, setError] = useState(null);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [routeName, setRouteName] = useState('');
-  
-  const { data: favorites, isLoading: favoritesLoading } = useFavoriteRoutes();
+  const [loadingRouteId, setLoadingRouteId] = useState(null);
+
+  const { data: favoriteRoutes, isLoading: favoritesLoading } = useFavoriteRoutes();
   const saveAsFavoriteMutation = useSaveAsFavorite();
-//   const routeMutation = useRoute();
-  
+
   const {
     route,
     origin,
@@ -22,8 +23,6 @@ function FavoriteRoutes() {
     setDestination,
     setRoute,
     setWeatherPoints,
-    setLoading,
-    setError,
     setTravelMode
   } = useTravel();
 
@@ -52,7 +51,7 @@ function FavoriteRoutes() {
   };
 
   const handleLoadFavorite = async (favorite) => {
-    setLoading(true);
+    setLoadingRouteId(favorite.id);
     setError(null);
 
     try {
@@ -85,7 +84,7 @@ function FavoriteRoutes() {
       console.error('Error loading favorite route:', error);
       setError('Failed to load favorite route');
     } finally {
-      setLoading(false);
+      setLoadingRouteId(null);
     }
   };
 
@@ -137,22 +136,28 @@ function FavoriteRoutes() {
         </div>
       )}
 
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
+
       {/* Favorites List */}
       {favoritesLoading ? (
         <div className="text-sm text-gray-500">Loading favorites...</div>
-      ) : favorites && favorites.length > 0 ? (
+      ) : favoriteRoutes && favoriteRoutes.length > 0 ? (
         <div className="space-y-2">
-          {favorites.map((favorite) => (
+          {favoriteRoutes.map((favorite) => (
             <div
               key={favorite.id}
-              className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer border border-gray-200"
               onClick={() => handleLoadFavorite(favorite)}
+              className={`p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors ${
+                loadingRouteId === favorite.id ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-900 text-sm">
-                    {favorite.name}
-                  </h4>
+                  <h4 className="font-medium text-gray-800 text-sm">{favorite.name}</h4>
                   <p className="text-xs text-gray-600 mt-1">
                     {favorite.origin} → {favorite.destination}
                   </p>
@@ -166,6 +171,13 @@ function FavoriteRoutes() {
                       <span>⏱️ {formatTime(favorite.duration / 60)}</span>
                     )}
                   </div>
+                  
+                  {loadingRouteId === favorite.id && (
+                    <div className="mt-2 text-xs text-blue-600 flex items-center gap-1">
+                      <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 border-t-transparent"></div>
+                      Loading route...
+                    </div>
+                  )}
                 </div>
                 <div className="text-xs text-gray-400">
                   {new Date(favorite.createdAt).toLocaleDateString()}
@@ -176,7 +188,7 @@ function FavoriteRoutes() {
         </div>
       ) : (
         <div className="text-sm text-gray-500 text-center py-4">
-          No favorite routes yet. Plan a route and save it as a favorite!
+          No favorite routes saved yet.
         </div>
       )}
     </div>

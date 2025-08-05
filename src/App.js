@@ -3,6 +3,7 @@ import WeatherMap from "./components/WeatherMap";
 import RouteForm from "./components/RouteForm";
 import WeatherPanel from "./components/WeatherPanel";
 import FavoriteRoutes from "./components/FavoriteRoutes";
+import RouteHistory from "./components/RouteHistory";
 import HomePage from "./components/HomePage";
 import { TravelProvider } from "./context/TravelContext";
 import { authService } from "./services/authService";
@@ -76,6 +77,7 @@ function App() {
               <RouteForm />
               <FavoriteRoutes />
               <WeatherPanel />
+              <RouteHistory />
             </div>
           </div>
         </div>

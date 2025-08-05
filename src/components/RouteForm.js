@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTravel } from "../context/TravelContext";
 import { useGeocode, useRoute } from "../hooks/useRouting";
+import { useSaveRouteHistory } from "../hooks/useFavorites";
 import { calculateRouteSegments, getAverageSpeed } from "../utils/routeUtils";
 
 function RouteForm() {
@@ -34,6 +35,7 @@ function RouteForm() {
 
   const geocodeMutation = useGeocode();
   const routeMutation = useRoute();
+  const saveRouteHistory = useSaveRouteHistory();
 
   // Debounced search function for origin
   const debouncedOriginSearch = useCallback(
@@ -192,6 +194,34 @@ function RouteForm() {
       );
 
       setWeatherPoints(segments);
+
+      // Save to route history
+      try {
+        console.log('💾 Saving route to history:', {
+          origin: origin,
+          destination: destination,
+          distance: route.distance,
+          duration: route.duration,
+          travelMode,
+          coordinatesLength: route.coordinates?.length,
+          weatherPointsLength: segments?.length
+        });
+        
+        await saveRouteHistory.mutateAsync({
+          origin: origin,
+          destination: destination,
+          distance: route.distance,
+          duration: route.duration,
+          travelMode,
+          coordinates: route.coordinates,
+          weatherPoints: segments,
+        });
+        
+        console.log('✅ Route saved to history successfully');
+      } catch (saveError) {
+        console.error('❌ Failed to save route to history:', saveError);
+        // Don't fail the entire operation if history save fails
+      }
     } catch (error) {
       console.error("Error planning route:", error);
       setError(error.message || "Failed to plan route. Please try again.");
