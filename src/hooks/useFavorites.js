@@ -30,6 +30,21 @@ export function useSaveAsFavorite() {
   );
 }
 
+export function useDeleteFavoriteRoute() {
+  const queryClient = useQueryClient();
+  const user = authService.getCurrentUser();
+
+  return useMutation(
+    (routeId) => routingService.deleteFavoriteRoute(routeId),
+    {
+      onSuccess: () => {
+        // Invalidate and refetch favorite routes
+        queryClient.invalidateQueries(['favoriteRoutes', user?.uid]);
+      },
+    }
+  );
+}
+
 export function useRouteHistory() {
   const user = authService.getCurrentUser();
   

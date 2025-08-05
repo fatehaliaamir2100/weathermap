@@ -105,6 +105,8 @@ export function TravelProvider({ children }) {
   const [updateInterval, setUpdateIntervalState] = useState(30);
   const [isLoading, setIsLoadingState] = useState(false);
   const [error, setErrorState] = useState(null);
+  // Add departure time state (in minutes from now, max 3 days = 4320 minutes)
+  const [departureTime, setDepartureTimeState] = useState(0);
 
   // Enhanced logging for state changes
   useEffect(() => {
@@ -118,9 +120,10 @@ export function TravelProvider({ children }) {
       travelMode,
       updateInterval,
       isLoading,
-      hasError: !!error
+      hasError: !!error,
+      departureTime
     });
-  }, [origin, destination, route, weatherPoints, travelMode, updateInterval, isLoading, error]);
+  }, [origin, destination, route, weatherPoints, travelMode, updateInterval, isLoading, error, departureTime]);
 
   // Enhanced setter functions with validation
   const setOrigin = useCallback((newOrigin) => {
@@ -307,6 +310,33 @@ export function TravelProvider({ children }) {
     }
   }, []);
 
+  const setDepartureTime = useCallback((newDepartureTime) => {
+    const operation = 'setDepartureTime';
+    try {
+      console.log(`🕐 ${operation} called:`, { newDepartureTime });
+      
+      const errors = validateState('departureTime', newDepartureTime, 'number');
+      if (errors.length > 0) {
+        console.warn(`⚠️ ${operation} validation warnings:`, errors);
+      }
+      
+      // Validate departure time is within limits (0 to 3 days = 4320 minutes)
+      if (typeof newDepartureTime === 'number') {
+        if (newDepartureTime < 0) {
+          console.warn(`⚠️ ${operation}: Departure time cannot be negative, got:`, newDepartureTime);
+        } else if (newDepartureTime > 4320) {
+          console.warn(`⚠️ ${operation}: Departure time exceeds 3-day limit, got:`, newDepartureTime);
+        }
+      }
+      
+      setDepartureTimeState(Math.max(0, Math.min(newDepartureTime || 0, 4320)));
+      console.log(`✅ ${operation} completed successfully`);
+    } catch (error) {
+      logContextError(operation, error, { newDepartureTime });
+      setErrorState(`Failed to set departure time: ${error.message}`);
+    }
+  }, []);
+
   const setLoading = useCallback((newLoading) => {
     const operation = 'setLoading';
     try {
@@ -390,6 +420,7 @@ export function TravelProvider({ children }) {
     updateInterval,
     isLoading,
     error,
+    departureTime,
     
     // Actions
     setOrigin,
@@ -398,6 +429,7 @@ export function TravelProvider({ children }) {
     setWeatherPoints,
     setTravelMode,
     setUpdateInterval,
+    setDepartureTime,
     setLoading,
     setError,
     clearRoute,

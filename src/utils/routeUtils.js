@@ -3,7 +3,8 @@ import * as turf from "@turf/turf";
 export function calculateRouteSegments(
   routeCoordinates,
   intervalMinutes = 30,
-  averageSpeedKmh = 80
+  averageSpeedKmh = 80,
+  departureTimeMinutes = 0
 ) {
   if (!routeCoordinates || routeCoordinates.length < 2) {
     return [];
@@ -27,12 +28,13 @@ export function calculateRouteSegments(
         {
           coordinates: routeCoordinates[0],
           distanceFromStart: 0,
-          estimatedTime: 0,
+          estimatedTime: departureTimeMinutes,
         },
         {
           coordinates: routeCoordinates[routeCoordinates.length - 1],
           distanceFromStart: totalDistance,
-          estimatedTime: (totalDistance / averageSpeedKmh) * 60, // minutes
+          estimatedTime:
+            departureTimeMinutes + (totalDistance / averageSpeedKmh) * 60, // minutes
         },
       ];
     }
@@ -45,7 +47,7 @@ export function calculateRouteSegments(
     segments.push({
       coordinates: routeCoordinates[0],
       distanceFromStart: 0,
-      estimatedTime: 0,
+      estimatedTime: departureTimeMinutes,
       segmentIndex: segmentIndex++,
     });
 
@@ -62,7 +64,8 @@ export function calculateRouteSegments(
         segments.push({
           coordinates: [lat, lng],
           distanceFromStart: currentDistance,
-          estimatedTime: (currentDistance / averageSpeedKmh) * 60, // minutes
+          estimatedTime:
+            departureTimeMinutes + (currentDistance / averageSpeedKmh) * 60, // minutes
           segmentIndex: segmentIndex++,
         });
       } catch (error) {
@@ -74,7 +77,8 @@ export function calculateRouteSegments(
     segments.push({
       coordinates: routeCoordinates[routeCoordinates.length - 1],
       distanceFromStart: totalDistance,
-      estimatedTime: (totalDistance / averageSpeedKmh) * 60, // minutes
+      estimatedTime:
+        departureTimeMinutes + (totalDistance / averageSpeedKmh) * 60, // minutes
       segmentIndex: segmentIndex++,
     });
 
@@ -86,13 +90,13 @@ export function calculateRouteSegments(
       {
         coordinates: routeCoordinates[0],
         distanceFromStart: 0,
-        estimatedTime: 0,
+        estimatedTime: departureTimeMinutes,
         segmentIndex: 0,
       },
       {
         coordinates: routeCoordinates[routeCoordinates.length - 1],
         distanceFromStart: 0,
-        estimatedTime: 0,
+        estimatedTime: departureTimeMinutes,
         segmentIndex: 1,
       },
     ];

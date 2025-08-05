@@ -12,6 +12,7 @@ function RouteHistory() {
   
   const {
     updateInterval,
+    departureTime,
     setOrigin,
     setDestination,
     setRoute,
@@ -177,7 +178,8 @@ function RouteHistory() {
           const segments = calculateRouteSegments(
             reconstructedCoordinates,
             updateInterval,
-            averageSpeed
+            averageSpeed,
+            departureTime
           );
           
           console.log(`✅ New weather points calculated for ${operationId}:`, {

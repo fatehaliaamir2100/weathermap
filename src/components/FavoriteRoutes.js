@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFavoriteRoutes, useSaveAsFavorite } from '../hooks/useFavorites';
+import { useFavoriteRoutes, useSaveAsFavorite, useDeleteFavoriteRoute } from '../hooks/useFavorites';
 import { useTravel } from '../context/TravelContext';
 // import { useRoute } from '../hooks/useRouting';
 import { calculateRouteSegments, getAverageSpeed, formatDistance, formatTime } from '../utils/routeUtils';
@@ -9,9 +9,11 @@ function FavoriteRoutes() {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [routeName, setRouteName] = useState('');
   const [loadingRouteId, setLoadingRouteId] = useState(null);
+  const [deletingRouteId, setDeletingRouteId] = useState(null);
 
   const { data: favoriteRoutes, isLoading: favoritesLoading } = useFavoriteRoutes();
   const saveAsFavoriteMutation = useSaveAsFavorite();
+  const deleteFavoriteMutation = useDeleteFavoriteRoute();
 
   const {
     route,
@@ -88,6 +90,20 @@ function FavoriteRoutes() {
     }
   };
 
+  const handleDeleteFavorite = async (e, favoriteId) => {
+    e.stopPropagation(); // Prevent triggering the load favorite handler
+    setDeletingRouteId(favoriteId);
+    setError(null);
+
+    try {
+      await deleteFavoriteMutation.mutateAsync(favoriteId);
+    } catch (error) {
+      setError('Failed to delete favorite route');
+    } finally {
+      setDeletingRouteId(null);
+    }
+  };
+
   const canSaveRoute = route && origin && destination;
 
   return (
@@ -150,13 +166,15 @@ function FavoriteRoutes() {
           {favoriteRoutes.map((favorite) => (
             <div
               key={favorite.id}
-              onClick={() => handleLoadFavorite(favorite)}
-              className={`p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors ${
+              className={`p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-colors ${
                 loadingRouteId === favorite.id ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               <div className="flex justify-between items-start">
-                <div className="flex-1">
+                <div 
+                  className="flex-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 p-2 -m-2 rounded"
+                  onClick={() => handleLoadFavorite(favorite)}
+                >
                   <h4 className="font-medium text-gray-800 dark:text-white text-sm">{favorite.name}</h4>
                   <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                     {favorite.origin} → {favorite.destination}
@@ -179,8 +197,24 @@ function FavoriteRoutes() {
                     </div>
                   )}
                 </div>
-                <div className="text-xs text-gray-400 dark:text-gray-500">
-                  {new Date(favorite.createdAt).toLocaleDateString()}
+                <div className="flex flex-col items-end gap-1">
+                  <div className="text-xs text-gray-400 dark:text-gray-500">
+                    {new Date(favorite.createdAt).toLocaleDateString()}
+                  </div>
+                  <button
+                    onClick={(e) => handleDeleteFavorite(e, favorite.id)}
+                    disabled={deletingRouteId === favorite.id}
+                    className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 disabled:opacity-50 p-1 rounded transition-colors"
+                    title="Delete favorite route"
+                  >
+                    {deletingRouteId === favorite.id ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border border-red-600 dark:border-red-400 border-t-transparent"></div>
+                    ) : (
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
