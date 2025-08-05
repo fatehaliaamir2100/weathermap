@@ -16,13 +16,13 @@ function WeatherPointCard({ point, index }) {
  // Skip rendering if coordinates are invalid
  if (!coordinatesValid) {
  return (
- <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+ <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
  <div className="flex items-center justify-between mb-2">
- <span className="text-sm font-medium text-gray-700">
+ <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
  Segment {index + 1}
  </span>
  </div>
- <div className="text-sm text-red-600">
+ <div className="text-sm text-red-600 dark:text-red-400">
  Invalid coordinates
  </div>
  </div>
@@ -31,16 +31,16 @@ function WeatherPointCard({ point, index }) {
 
  if (isLoading) {
  return (
- <div className="bg-gray-50 rounded-lg p-3 animate-pulse">
+ <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 animate-pulse">
  <div className="flex items-center justify-between mb-2">
- <div className="h-4 bg-gray-300 rounded w-24"></div>
- <div className="h-4 bg-gray-300 rounded w-16"></div>
+ <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24"></div>
+ <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-16"></div>
  </div>
  <div className="flex items-center gap-3">
- <div className="w-12 h-12 bg-gray-300 rounded"></div>
+ <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
  <div className="flex-1">
- <div className="h-4 bg-gray-300 rounded w-20 mb-1"></div>
- <div className="h-3 bg-gray-300 rounded w-32"></div>
+ <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-20 mb-1"></div>
+ <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
  </div>
  </div>
  </div>
@@ -49,19 +49,19 @@ function WeatherPointCard({ point, index }) {
 
  if (error || !weather) {
  return (
- <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+ <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
  <div className="flex items-center justify-between mb-2">
- <span className="text-sm font-medium text-gray-700">
+ <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
  Segment {index + 1}
  </span>
- <span className="text-xs text-gray-500">
+ <span className="text-xs text-gray-500 dark:text-gray-400">
  {formatTime(point.estimatedTime || 0)}
  </span>
  </div>
- <div className="text-sm text-red-600">
+ <div className="text-sm text-red-600 dark:text-red-400">
  Weather data unavailable
  </div>
- <div className="text-xs text-gray-500 mt-1">
+ <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
  {point.distanceFromStart?.toFixed(1)}km from start
  </div>
  </div>
@@ -76,12 +76,12 @@ function WeatherPointCard({ point, index }) {
  const windSpeed = weather.wind_speed || weather.current?.wind_speed || weather.wind?.speed || 0;
 
  return (
- <div className="bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow">
+ <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3 hover:shadow-md transition-shadow">
  <div className="flex items-center justify-between mb-2">
- <span className="text-sm font-medium text-gray-700">
+ <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
  Segment {index + 1}
  </span>
- <span className="text-xs text-gray-500">
+ <span className="text-xs text-gray-500 dark:text-gray-400">
  {formatTime(point.estimatedTime || 0)}
  </span>
  </div>
@@ -93,16 +93,16 @@ function WeatherPointCard({ point, index }) {
  className="w-12 h-12"
  />
  <div className="flex-1">
- <div className="font-semibold text-lg">
+ <div className="font-semibold text-lg text-gray-900 dark:text-white">
  {Math.round(temp)}°C
  </div>
- <div className="text-sm text-gray-600 capitalize">
+ <div className="text-sm text-gray-600 dark:text-gray-300 capitalize">
  {description}
  </div>
  </div>
  </div>
 
- <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-2">
+ <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 dark:text-gray-300 mb-2">
  <div>Feels like: {Math.round(feelsLike || temp)}°C</div>
  <div>Humidity: {humidity}%</div>
  <div>Wind: {Math.round(windSpeed * 3.6)} km/h</div>
@@ -110,15 +110,15 @@ function WeatherPointCard({ point, index }) {
  </div>
 
  {(weather.visibility || weather.current?.visibility) && (
- <div className="text-xs text-gray-500 mb-2">
+ <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
  Visibility: {((weather.visibility || weather.current?.visibility) / 1000).toFixed(1)}km
  </div>
  )}
 
  {/* Forecast time indicator */}
- <div className="text-xs border-t pt-2">
+ <div className="text-xs border-t border-gray-200 dark:border-gray-600 pt-2">
  {weather.isForecasted ? (
- <div className="text-blue-600 font-medium">
+ <div className="text-blue-600 dark:text-blue-400 font-medium">
  📅 Forecast for {new Date(Date.now() + estimatedMinutes * 60 * 1000).toLocaleString([], {
  month: 'short',
  day: 'numeric',
@@ -127,11 +127,11 @@ function WeatherPointCard({ point, index }) {
  })}
  </div>
  ) : estimatedMinutes > 0 ? (
- <div className="text-orange-600">
+ <div className="text-orange-600 dark:text-orange-400">
  ⚠️ Current weather (forecast unavailable)
  </div>
  ) : (
- <div className="text-green-600">
+ <div className="text-green-600 dark:text-green-400">
  🔄 Current weather
  </div>
  )}
@@ -146,9 +146,9 @@ function RouteSummary() {
  if (!route) return null;
 
  return (
- <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
- <h3 className="font-semibold text-blue-900 mb-2">Route Summary</h3>
- <div className="grid grid-cols-2 gap-2 text-sm text-blue-800">
+ <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 mb-4">
+ <h3 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">Route Summary</h3>
+ <div className="grid grid-cols-2 gap-2 text-sm text-blue-800 dark:text-blue-300">
  <div>
  <span className="font-medium">Distance:</span> {formatDistance(route.distance)}
  </div>
@@ -167,8 +167,8 @@ function WeatherPanel() {
  return (
  <div className="p-4">
  <div className="flex items-center justify-center py-8">
- <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
- <span className="ml-2 text-gray-600">Planning your route...</span>
+ <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+ <span className="ml-2 text-gray-600 dark:text-gray-300">Planning your route...</span>
  </div>
  </div>
  );
@@ -178,12 +178,12 @@ function WeatherPanel() {
  return (
  <div className="p-4">
  <div className="text-center py-8">
- <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+ <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
  </svg>
- <h3 className="mt-2 text-sm font-medium text-gray-900">No route planned</h3>
- <p className="mt-1 text-sm text-gray-500">
+ <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No route planned</h3>
+ <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
  Enter your origin and destination to see weather forecasts along your route.
  </p>
  </div>
@@ -194,14 +194,14 @@ function WeatherPanel() {
  return (
  <div className="p-4">
  <div className="mb-4">
- <h2 className="text-lg font-semibold text-gray-800 mb-3">
+ <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">
  Weather Forecast
  </h2>
  
  <RouteSummary />
  
  {weatherPoints.length > 0 && (
- <div className="text-sm text-gray-600 mb-3">
+ <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">
  {weatherPoints.length} weather points along your route
  </div>
  )}
@@ -219,7 +219,7 @@ function WeatherPanel() {
 
  {weatherPoints.length === 0 && route && (
  <div className="text-center py-4">
- <div className="text-sm text-gray-500">
+ <div className="text-sm text-gray-500 dark:text-gray-400">
  No weather points generated. Try adjusting your route or settings.
  </div>
  </div>

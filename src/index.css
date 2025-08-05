@@ -15,6 +15,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode body background */
+.dark body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../public/cloudy-background.jpg');
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -24,6 +29,12 @@ code {
   height: 100%;
   width: 100%;
   background: #ffffff !important;
+}
+
+/* Dark mode map styling */
+.dark .leaflet-container {
+  background: #1f2937 !important;
+  filter: brightness(0.8) contrast(1.2);
 }
 
 /* Custom weather marker styles */
@@ -42,6 +53,11 @@ code {
   border-radius: 50%;
   width: 16px;
   height: 16px;
+}
+
+/* Dark mode route markers */
+.dark .route-marker {
+  border-color: #1f2937;
 }
 
 .route-marker.origin {
@@ -64,6 +80,13 @@ code {
   min-width: 60px;
 }
 
+/* Dark mode weather markers */
+.dark .weather-marker {
+  background: #374151;
+  border-color: #6b7280;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
 .weather-icon {
   display: flex;
   justify-content: center;
@@ -79,4 +102,37 @@ code {
   text-align: center;
   line-height: 1;
   white-space: nowrap;
+}
+
+/* Dark mode weather temperature text */
+.dark .weather-temp {
+  color: #f9fafb;
+}
+
+/* Dark mode Leaflet popup styling */
+.dark .leaflet-popup-content-wrapper {
+  background: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.dark .leaflet-popup-tip {
+  background: #374151 !important;
+}
+
+/* Dark mode scrollbar styling */
+.dark ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }

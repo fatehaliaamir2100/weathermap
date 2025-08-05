@@ -242,16 +242,20 @@ function WeatherMap() {
       </MapContainer>
 
       {/* Map legend */}
-      <div className="absolute bottom-4 right-4 bg-white p-3 rounded-lg shadow-lg z-10">
-        <div className="text-sm font-semibold mb-2">Legend</div>
+      <div className="absolute bottom-4 right-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg z-10 border dark:border-gray-600">
+        <div className="text-sm font-semibold mb-2 text-gray-900 dark:text-white">
+          Legend
+        </div>
         <div className="space-y-1 text-xs">
           <div className="flex items-center gap-2">
             <div className="w-3 h-1 bg-blue-500"></div>
-            <span>Route</span>
+            <span className="text-gray-700 dark:text-gray-300">Route</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <span>Weather Points</span>
+            <span className="text-gray-700 dark:text-gray-300">
+              Weather Points
+            </span>
           </div>
         </div>
       </div>

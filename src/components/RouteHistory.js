@@ -285,13 +285,13 @@ function RouteHistory() {
   // Enhanced error state with retry functionality
   if (queryError && !routeHistory) {
     return (
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-600">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Routes</h3>
-          <span className="text-xs text-red-500">Error loading</span>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Recent Routes</h3>
+          <span className="text-xs text-red-500 dark:text-red-400">Error loading</span>
         </div>
 
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-md">
           <div className="flex items-start">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -299,17 +299,17 @@ function RouteHistory() {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">
+              <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
                 Unable to load route history
               </h3>
-              <div className="mt-2 text-sm text-red-700">
+              <div className="mt-2 text-sm text-red-700 dark:text-red-300">
                 <p>{queryError.message || 'Unknown error occurred'}</p>
                 <p className="text-xs mt-1">Retry count: {retryCount}</p>
               </div>
               <div className="mt-3">
                 <button
                   onClick={handleRetry}
-                  className="bg-red-100 px-3 py-1 rounded-md text-sm font-medium text-red-800 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="bg-red-100 dark:bg-red-800/30 px-3 py-1 rounded-md text-sm font-medium text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800/50 focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                   Try Again
                 </button>
@@ -322,13 +322,13 @@ function RouteHistory() {
   }
 
   return (
-    <div className="p-4 border-b border-gray-200">
+    <div className="p-4 border-b border-gray-200 dark:border-gray-600">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Recent Routes</h3>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Recent Routes</h3>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500">Last 10 searches</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">Last 10 searches</span>
           {retryCount > 0 && (
-            <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+            <span className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded">
               Retried {retryCount}x
             </span>
           )}
@@ -336,20 +336,20 @@ function RouteHistory() {
       </div>
 
       {(error || queryError) && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-md">
           <div className="flex items-start">
             <svg className="h-4 w-4 text-red-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
             <div>
-              <p className="text-sm text-red-600">{error || queryError?.message || 'Unknown error occurred'}</p>
-              <p className="text-xs text-red-500 mt-1">
+              <p className="text-sm text-red-600 dark:text-red-400">{error || queryError?.message || 'Unknown error occurred'}</p>
+              <p className="text-xs text-red-500 dark:text-red-400 mt-1">
                 Check browser console for detailed error information
               </p>
               {queryError && (
                 <button
                   onClick={handleRetry}
-                  className="mt-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded hover:bg-red-200"
+                  className="mt-2 text-xs bg-red-100 dark:bg-red-800/30 text-red-700 dark:text-red-200 px-2 py-1 rounded hover:bg-red-200 dark:hover:bg-red-800/50"
                 >
                   Retry
                 </button>
@@ -362,12 +362,12 @@ function RouteHistory() {
       {/* Route History List */}
       {historyLoading ? (
         <div className="flex items-center justify-center py-4">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-          <span className="ml-2 text-sm text-gray-500">Loading route history...</span>
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 dark:border-blue-400"></div>
+          <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">Loading route history...</span>
         </div>
       ) : routeHistory && routeHistory.length > 0 ? (
         <div className="space-y-2">
-          <div className="text-xs text-green-600 mb-2 flex items-center">
+          <div className="text-xs text-green-600 dark:text-green-400 mb-2 flex items-center">
             <svg className="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
@@ -379,18 +379,18 @@ function RouteHistory() {
               <div
                 key={historyRoute.id}
                 onClick={() => !isLoading && handleLoadHistoryRoute(historyRoute)}
-                className={`p-3 bg-gray-50 rounded-lg border border-gray-200 transition-all duration-200 ${
+                className={`p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 ${
                   isLoading 
                     ? 'opacity-50 cursor-not-allowed' 
-                    : 'cursor-pointer hover:bg-gray-100 hover:shadow-sm'
+                    : 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 hover:shadow-sm'
                 }`}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <p className="text-sm text-gray-800 font-medium break-words">
+                    <p className="text-sm text-gray-800 dark:text-white font-medium break-words">
                       {historyRoute.origin} → {historyRoute.destination}
                     </p>
-                    <div className="flex flex-wrap gap-4 mt-2 text-xs text-gray-500">
+                    <div className="flex flex-wrap gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                       <span className="flex items-center">
                         🚗 {historyRoute.travelMode === 'driving-car' ? 'Driving' : 
                              historyRoute.travelMode === 'cycling-regular' ? 'Cycling' : 
@@ -410,13 +410,13 @@ function RouteHistory() {
                     </div>
                     
                     {isLoading && (
-                      <div className="mt-2 text-xs text-blue-600 flex items-center gap-1">
-                        <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 border-t-transparent"></div>
+                      <div className="mt-2 text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                        <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 dark:border-blue-400 border-t-transparent"></div>
                         Loading route...
                       </div>
                     )}
                   </div>
-                  <div className="text-xs text-gray-400 ml-2 text-right">
+                  <div className="text-xs text-gray-400 dark:text-gray-500 ml-2 text-right">
                     <div>{formatTimestamp(historyRoute.timestamp)}</div>
                   </div>
                 </div>
@@ -426,15 +426,15 @@ function RouteHistory() {
         </div>
       ) : (
         <div className="text-center py-8">
-          <div className="text-sm text-gray-500 mb-2">
+          <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             {historyLoading ? 'Loading...' : 'No route history yet.'}
           </div>
           {!historyLoading && (
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-gray-400 dark:text-gray-500">
               Plan your first route to see it here!
             </div>
           )}
-          <div className="text-xs text-gray-400 mt-4 p-2 bg-gray-50 rounded">
+          <div className="text-xs text-gray-400 dark:text-gray-500 mt-4 p-2 bg-gray-50 dark:bg-gray-700 rounded">
             Debug info: Loading={historyLoading.toString()}, Error={queryError?.message || 'none'}, Retry={retryCount}
           </div>
         </div>

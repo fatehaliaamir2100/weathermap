@@ -91,13 +91,13 @@ function FavoriteRoutes() {
   const canSaveRoute = route && origin && destination;
 
   return (
-    <div className="p-4 border-b border-gray-200">
+    <div className="p-4 border-b border-gray-200 dark:border-gray-600">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Favorite Routes</h3>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Favorite Routes</h3>
         {canSaveRoute && (
           <button
             onClick={() => setShowSaveDialog(true)}
-            className="text-sm bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="text-sm bg-green-600 dark:bg-green-700 text-white px-3 py-1 rounded-md hover:bg-green-700 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             ⭐ Save Route
           </button>
@@ -106,20 +106,20 @@ function FavoriteRoutes() {
 
       {/* Save Dialog */}
       {showSaveDialog && (
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 className="font-medium text-blue-900 mb-2">Save as Favorite</h4>
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+          <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Save as Favorite</h4>
           <input
             type="text"
             placeholder={`${origin} to ${destination}`}
             value={routeName}
             onChange={(e) => setRouteName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-2"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-2"
           />
           <div className="flex gap-2">
             <button
               onClick={handleSaveAsFavorite}
               disabled={saveAsFavoriteMutation.isLoading}
-              className="flex-1 bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm disabled:opacity-50"
+              className="flex-1 bg-blue-600 dark:bg-blue-700 text-white py-1 px-3 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm disabled:opacity-50"
             >
               {saveAsFavoriteMutation.isLoading ? 'Saving...' : 'Save'}
             </button>
@@ -128,7 +128,7 @@ function FavoriteRoutes() {
                 setShowSaveDialog(false);
                 setRouteName('');
               }}
-              className="px-3 py-1 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm"
+              className="px-3 py-1 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 text-sm"
             >
               Cancel
             </button>
@@ -137,31 +137,31 @@ function FavoriteRoutes() {
       )}
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-md">
+          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
         </div>
       )}
 
       {/* Favorites List */}
       {favoritesLoading ? (
-        <div className="text-sm text-gray-500">Loading favorites...</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">Loading favorites...</div>
       ) : favoriteRoutes && favoriteRoutes.length > 0 ? (
         <div className="space-y-2">
           {favoriteRoutes.map((favorite) => (
             <div
               key={favorite.id}
               onClick={() => handleLoadFavorite(favorite)}
-              className={`p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors ${
+              className={`p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors ${
                 loadingRouteId === favorite.id ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-800 text-sm">{favorite.name}</h4>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <h4 className="font-medium text-gray-800 dark:text-white text-sm">{favorite.name}</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                     {favorite.origin} → {favorite.destination}
                   </p>
-                  <div className="flex gap-4 mt-2 text-xs text-gray-500">
+                  <div className="flex gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>🚗 {favorite.travelMode === 'driving-car' ? 'Driving' : 
                                 favorite.travelMode === 'cycling-regular' ? 'Cycling' : 'Walking'}</span>
                     {favorite.distance && (
@@ -173,13 +173,13 @@ function FavoriteRoutes() {
                   </div>
                   
                   {loadingRouteId === favorite.id && (
-                    <div className="mt-2 text-xs text-blue-600 flex items-center gap-1">
-                      <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 border-t-transparent"></div>
+                    <div className="mt-2 text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                      <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 dark:border-blue-400 border-t-transparent"></div>
                       Loading route...
                     </div>
                   )}
                 </div>
-                <div className="text-xs text-gray-400">
+                <div className="text-xs text-gray-400 dark:text-gray-500">
                   {new Date(favorite.createdAt).toLocaleDateString()}
                 </div>
               </div>
@@ -187,7 +187,7 @@ function FavoriteRoutes() {
           ))}
         </div>
       ) : (
-        <div className="text-sm text-gray-500 text-center py-4">
+        <div className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
           No favorite routes saved yet.
         </div>
       )}
