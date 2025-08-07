@@ -337,52 +337,52 @@ function RouteForm() {
           </select>
         </div>
 
-        {/* Departure Time Slider */}
+        {/* Departure Time Dropdown */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Departure Time
           </label>
-          <div className="space-y-2">
-            <input
-              type="range"
-              min="0"
-              max="4320"
-              step="15"
-              value={departureTime}
-              onChange={(e) => setDepartureTime(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-              disabled={isLoading}
-            />
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-              <span>Now</span>
-              <span>3 days</span>
+          <select
+            value={departureTime}
+            onChange={(e) => setDepartureTime(parseInt(e.target.value))}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            disabled={isLoading}
+          >
+            <option value={0}>🚀 Leave now</option>
+            <option value={30}>In 30 minutes</option>
+            <option value={60}>In 1 hour</option>
+            <option value={90}>In 1.5 hours</option>
+            <option value={120}>In 2 hours</option>
+            <option value={180}>In 3 hours</option>
+            <option value={240}>In 4 hours</option>
+            <option value={300}>In 5 hours</option>
+            <option value={360}>In 6 hours</option>
+            <option value={480}>In 8 hours</option>
+            <option value={600}>In 10 hours</option>
+            <option value={720}>In 12 hours</option>
+            <option value={900}>In 15 hours</option>
+            <option value={1080}>In 18 hours</option>
+            <option value={1200}>In 20 hours</option>
+            <option value={1440}>Tomorrow (24 hours)</option>
+            <option value={1800}>In 1.5 days (30 hours)</option>
+            <option value={2160}>In 1.5 days (36 hours)</option>
+            <option value={2880}>In 2 days (48 hours)</option>
+            <option value={3600}>In 2.5 days (60 hours)</option>
+            <option value={4320}>In 3 days (72 hours)</option>
+          </select>
+          {departureTime > 0 && (
+            <div className="text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-md mt-2">
+              <span className="text-gray-500 dark:text-gray-400">
+                📅 {new Date(Date.now() + departureTime * 60 * 1000).toLocaleString([], {
+                  weekday: 'short',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </span>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-md">
-              {departureTime === 0 ? (
-                <span className="text-green-600 dark:text-green-400 font-medium">🚀 Leaving now</span>
-              ) : (
-                <span>
-                  🕐 Departing in{" "}
-                  {departureTime < 60 ? (
-                    `${departureTime} minutes`
-                  ) : departureTime < 1440 ? (
-                    `${Math.floor(departureTime / 60)}h ${departureTime % 60}m`
-                  ) : (
-                    `${Math.floor(departureTime / 1440)} day${Math.floor(departureTime / 1440) > 1 ? 's' : ''} ${Math.floor((departureTime % 1440) / 60)}h`
-                  )}
-                  {" "}
-                  <span className="text-gray-500 dark:text-gray-400">
-                    ({new Date(Date.now() + departureTime * 60 * 1000).toLocaleString([], {
-                      month: 'short',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })})
-                  </span>
-                </span>
-              )}
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Error Display */}
